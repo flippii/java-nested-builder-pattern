@@ -1,5 +1,8 @@
 package com.nested.builder.pattern;
 
+import com.nested.builder.pattern.invoice.Invoice;
+import com.nested.builder.pattern.invoice.InvoiceActorType;
+
 import java.util.Date;
 
 public class Main {

@@ -1,4 +1,6 @@
-package com.nested.builder.pattern;
+package com.nested.builder.pattern.invoice;
+
+import com.nested.builder.pattern.NestedModelBuilder;
 
 public class InvoiceActor {
 
@@ -30,7 +32,7 @@ public class InvoiceActor {
                 '}';
     }
 
-    public final static class Builder extends NestedModelBuilder<Invoice.Builder, InvoiceActor> {
+    public final static class Builder extends NestedModelBuilder<Invoice.Builder, InvoiceActor, Builder> {
 
         private String actorName;
         private InvoiceActorType actorType;
@@ -48,14 +50,7 @@ public class InvoiceActor {
         }
 
         @Override
-        void isValid() {
-            if (actorName == null) {
-                throw new ValidationException("ActorName in InvoiceActor is null.");
-            }
-        }
-
-        @Override
-        InvoiceActor instance() {
+        protected InvoiceActor instance() {
             return new InvoiceActor(actorName, actorType);
         }
 

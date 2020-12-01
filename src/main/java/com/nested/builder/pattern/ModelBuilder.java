@@ -1,16 +1,23 @@
 package com.nested.builder.pattern;
 
-public abstract class ModelBuilder<V> {
+import java.util.function.Consumer;
 
+public abstract class ModelBuilder<V, E> {
+
+    private Consumer<E> validation;
+
+    @SuppressWarnings("unchecked")
     public V build() {
-        isValid();
+        if (validation != null) {
+            validation.accept((E) this);
+        }
         return instance();
     }
 
-    void isValid() {
-
+    public final void withValidation(Consumer<E> validation) {
+        this.validation = validation;
     }
 
-    abstract V instance();
+    protected abstract V instance();
 
 }

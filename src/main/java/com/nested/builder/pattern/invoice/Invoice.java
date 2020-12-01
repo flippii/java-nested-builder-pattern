@@ -1,8 +1,13 @@
-package com.nested.builder.pattern;
+package com.nested.builder.pattern.invoice;
+
+import com.nested.builder.pattern.ModelBuilder;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.nested.builder.pattern.invoice.InvoiceValidation.INVOICE_VALIDATION;
+
 public class Invoice {
 
     private final InvoiceActor invoiceSupplier;
@@ -67,14 +72,18 @@ public class Invoice {
                 '}';
     }
 
-    public final static class Builder extends ModelBuilder<Invoice> {
+    public final static class Builder extends ModelBuilder<Invoice, Builder> {
 
-        private InvoiceActor invoiceSupplier;
-        private InvoiceActor invoiceDestination;
-        private String supplierDocumentId;
-        private Date documentDate;
-        private String trailerNumber;
-        private final List<InvoiceItem> items = new ArrayList<>();
+        InvoiceActor invoiceSupplier;
+        InvoiceActor invoiceDestination;
+        String supplierDocumentId;
+        Date documentDate;
+        String trailerNumber;
+        final List<InvoiceItem> items = new ArrayList<>();
+
+        public Builder() {
+            withValidation(INVOICE_VALIDATION);
+        }
 
         public Builder createdOn(Date documentDate) {
             this.documentDate = documentDate;
@@ -107,14 +116,7 @@ public class Invoice {
         }
 
         @Override
-        void isValid() {
-            if (invoiceSupplier == null) {
-                throw new ValidationException("InvoiceSupplier in Invoice is null.");
-            }
-        }
-
-        @Override
-        Invoice instance() {
+        protected Invoice instance() {
             return new Invoice(invoiceSupplier, invoiceDestination, supplierDocumentId, documentDate, trailerNumber, items);
         }
 

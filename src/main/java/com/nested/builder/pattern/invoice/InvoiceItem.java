@@ -1,4 +1,6 @@
-package com.nested.builder.pattern;
+package com.nested.builder.pattern.invoice;
+
+import com.nested.builder.pattern.NestedModelBuilder;
 
 public class InvoiceItem {
 
@@ -37,7 +39,7 @@ public class InvoiceItem {
                 '}';
     }
 
-    public final static class Builder extends NestedModelBuilder<Invoice.Builder, InvoiceItem> {
+    public final static class Builder extends NestedModelBuilder<Invoice.Builder, InvoiceItem, Builder> {
 
         private String itemGtin;
         private Integer quantityRequested;
@@ -61,7 +63,7 @@ public class InvoiceItem {
         }
 
         @Override
-        InvoiceItem instance() {
+        protected InvoiceItem instance() {
             return new InvoiceItem(itemGtin, quantityRequested, quantityShipped);
         }
 

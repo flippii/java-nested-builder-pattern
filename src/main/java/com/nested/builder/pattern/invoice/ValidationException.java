@@ -1,4 +1,4 @@
-package com.nested.builder.pattern;
+package com.nested.builder.pattern.invoice;
 
 public class ValidationException extends RuntimeException {
 
