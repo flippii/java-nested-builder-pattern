@@ -2,15 +2,19 @@ package com.nested.builder.pattern;
 
 public class InvoiceItem {
 
-    private String itemGtin;
-    private Integer quantityRequested;
-    private Integer quantityShipped;
+    private final String itemGtin;
+    private final Integer quantityRequested;
+    private final Integer quantityShipped;
 
     public static Builder builder() {
-        return new InvoiceItem.Builder();
+        return new Builder();
     }
 
-    private InvoiceItem() {}
+    public InvoiceItem(String itemGtin, Integer quantityRequested, Integer quantityShipped) {
+        this.itemGtin = itemGtin;
+        this.quantityRequested = quantityRequested;
+        this.quantityShipped = quantityShipped;
+    }
 
     public String getItemGtin() {
         return itemGtin;
@@ -33,27 +37,32 @@ public class InvoiceItem {
                 '}';
     }
 
-    public final static class Builder extends NestedBuilder<Invoice.Builder, InvoiceItem> {
+    public final static class Builder extends NestedModelBuilder<Invoice.Builder, InvoiceItem> {
 
-        private final InvoiceItem invoiceItem = new InvoiceItem();
+        private String itemGtin;
+        private Integer quantityRequested;
+        private Integer quantityShipped;
+
+        public Builder() { }
 
         public Builder as(String itemGtin) {
-            invoiceItem.itemGtin = itemGtin;
+            this.itemGtin = itemGtin;
             return this;
         }
 
         public Builder orderedQuantity(Integer quantityRequested) {
-            invoiceItem.quantityRequested = quantityRequested;
+            this.quantityRequested = quantityRequested;
             return this;
         }
 
         public Builder shippedQuantity(Integer quantityShipped) {
-            invoiceItem.quantityShipped = quantityShipped;
+            this.quantityShipped = quantityShipped;
             return this;
         }
 
-        public InvoiceItem build() {
-            return invoiceItem;
+        @Override
+        InvoiceItem instance() {
+            return new InvoiceItem(itemGtin, quantityRequested, quantityShipped);
         }
 
     }

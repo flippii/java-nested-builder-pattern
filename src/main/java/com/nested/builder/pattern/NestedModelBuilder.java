@@ -2,7 +2,7 @@ package com.nested.builder.pattern;
 
 import java.util.function.Consumer;
 
-public abstract class NestedBuilder<T, V> {
+public abstract class NestedModelBuilder<T, V> extends ModelBuilder<V> {
 
     private T parent;
     private Consumer<V> callBack;
@@ -19,13 +19,11 @@ public abstract class NestedBuilder<T, V> {
         return parent;
     }
 
-    public abstract V build();
-
     @SuppressWarnings("unchecked")
-    public final <P extends NestedBuilder<T, V>> P withParentBuilder(T parent, Consumer<V> callBack) {
+    public final <P extends NestedModelBuilder<T, V>> P withParentBuilder(T parent, Consumer<V> callBack) {
         this.parent = parent;
         this.callBack = callBack;
-        return (P) this;
+        return  (P) this;
     }
 
 }
